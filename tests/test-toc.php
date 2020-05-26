@@ -58,8 +58,22 @@ HTML;
 HTML;
 
 		$toc = $parser->get_toc( $parser->parse_html( $parser->add_link_html( $html ) ) );
+		$path = __DIR__ . '/index.html';
+		file_put_contents( $path, sprintf( "<!DOCTYPE html>\n<html>%s</html>" , $toc) );
 		
-		file_put_contents( __DIR__ . '/index.html', sprintf( "<!DOCTYPE html>\n<html>%s</html>" , $toc) );
+		$this->assertTrue( file_exists( $path ) );
+	}
+	
+	public function test_depth() {
+		$parser = new Parser( 3, 3 );
+		$html = <<<HTML
+<h1>Title</h1>
+<h2>Section</h2>
+<h3>Section</h3>
+<h4>This will be ignored.</h4>
+HTML;
+		$toc = $parser->get_toc( $parser->parse_html( $parser->add_link_html( $html ) ) );
+		$this->assertTrue( false === strpos( $toc, 'This will be ignored.' ) );
 	}
 	
 	

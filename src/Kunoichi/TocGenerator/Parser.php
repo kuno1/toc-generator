@@ -87,7 +87,11 @@ class Parser {
 		}
 		foreach( $dom_nodes as $hn ) {
 			/** @var \DOMNode $dom */
-			if ( ! preg_match( '/h[1-6]/u', strtolower( $hn->nodeName ) ) ) {
+			if ( ! preg_match( '/h([1-6])/u', strtolower( $hn->nodeName ), $matches ) ) {
+				continue;
+			}
+			list( $match, $level ) = $matches;
+			if ( $this->ignore_deeper && ( (int) $level > $this->ignore_deeper ) ) {
 				continue;
 			}
 			$items[] = new Item( $hn );
