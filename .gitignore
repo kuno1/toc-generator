@@ -1,4 +1,4 @@
 vendor/
 tests/index.html
 composer.lock
-/wp/
+/wordpress/
