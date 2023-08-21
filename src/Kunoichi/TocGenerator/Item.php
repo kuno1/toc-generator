@@ -9,12 +9,12 @@ namespace Kunoichi\TocGenerator;
  * @package Kunoichi\TocGenerator
  */
 class Item {
-	
+
 	/**
 	 * @var \DOMNode
 	 */
 	private $dom = null;
-	
+
 	/**
 	 * Item constructor.
 	 *
@@ -23,7 +23,7 @@ class Item {
 	public function __construct( $dom ) {
 		$this->dom = $dom;
 	}
-	
+
 	/**
 	 * Return id attributes
 	 *
@@ -32,7 +32,7 @@ class Item {
 	public function id() {
 		return (string) $this->dom->getAttribute( 'id' );
 	}
-	
+
 	/**
 	 * Get text
 	 *
@@ -41,7 +41,7 @@ class Item {
 	public function text() {
 		return trim( $this->dom->textContent );
 	}
-	
+
 	/**
 	 * Get href
 	 *
@@ -50,7 +50,7 @@ class Item {
 	public function href() {
 		return sprintf( '#%s', $this->id() );
 	}
-	
+
 	/**
 	 * Get nest level
 	 *
@@ -65,7 +65,7 @@ class Item {
 		}
 		return (int) $depth;
 	}
-	
+
 	/**
 	 * Get markup of contents.
 	 *

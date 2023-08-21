@@ -11,22 +11,22 @@ use Masterminds\HTML5;
  * @package Kunoichi\TocGenerator
  */
 class Parser {
-	
+
 	/**
 	 * @var Item[]
 	 */
 	protected $parsed = [];
-	
+
 	protected $counter = 0;
-	
+
 	protected $id_prefix = '';
-	
+
 	protected $max_depth = 3;
-	
+
 	protected $ignore_deeper = false;
-	
+
 	protected $title = '';
-	
+
 	/**
 	 * Constructor
 	 *
@@ -39,7 +39,7 @@ class Parser {
 		$this->max_depth     = $max_depth;
 		$this->ignore_deeper = $ignore_deeper;
 	}
-	
+
 	/**
 	 * Add link id to html elements.
 	 *
@@ -50,7 +50,7 @@ class Parser {
 	public function add_link_html( $html ) {
 		return preg_replace_callback( '/<(h[1-6])([^>]*?)>/u', [ $this, 'convert_link' ], $html );
 	}
-	
+
 	/**
 	 * Add link to title elements.
 	 *
@@ -63,12 +63,12 @@ class Parser {
 		if ( preg_match( '/id=\'|"([\'"]*)(\'|")/u', $matches[2], $id_matches ) ) {
 			$id = $id_matches[1];
 		} else {
-			$id = sprintf( '%s%d', $this->id_prefix, $this->counter );
+			$id          = sprintf( '%s%d', $this->id_prefix, $this->counter );
 			$attributes .= sprintf( ' id="%s"', $id ) . $matches[2];
 		}
 		return sprintf( '<%s%s>', $matches[1], $attributes );
 	}
-	
+
 	/**
 	 * Convert HTML to array of links.
 	 *
@@ -76,17 +76,18 @@ class Parser {
 	 * @return Item[]
 	 */
 	public function parse_html( $html ) {
-		$html  = sprintf( '<html>%s</html>', $html );
-		$html5 = new HTML5();
-		$dom   = $html5->loadHTML( $html );
-		$xpath = new \DOMXPath( $dom );
-		$items = [];
+		$html      = sprintf( '<html>%s</html>', $html );
+		$html5     = new HTML5();
+		$dom       = $html5->loadHTML( $html );
+		$xpath     = new \DOMXPath( $dom );
+		$items     = [];
 		$dom_nodes = $xpath->query( '//*' );
 		if ( ! $dom_nodes ) {
 			return $items;
 		}
-		foreach( $dom_nodes as $hn ) {
+		foreach ( $dom_nodes as $hn ) {
 			/** @var \DOMNode $dom */
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			if ( ! preg_match( '/h([1-6])/u', strtolower( $hn->nodeName ), $matches ) ) {
 				continue;
 			}
@@ -98,7 +99,7 @@ class Parser {
 		}
 		return $items;
 	}
-	
+
 	/**
 	 * Save html
 	 *
@@ -108,7 +109,7 @@ class Parser {
 	public function save_parsed_html( $html ) {
 		$this->parsed = $this->parse_html( $html );
 	}
-	
+
 	/**
 	 * Get toc HTML
 	 *
@@ -129,14 +130,14 @@ class Parser {
 		} else {
 			$title = '';
 		}
-		$out  = sprintf( '<nav class="%1$s">%2$s<ol class="%1$s-root">', $class_name, $title );
+		$out        = sprintf( '<nav class="%1$s">%2$s<ol class="%1$s-root">', $class_name, $title );
 		$bench_mark = $this->benchmark( $items );
 		$prev       = $bench_mark;
-		$counter = 0;
+		$counter    = 0;
 		foreach ( $items as $item ) {
 			$level = $item->level( $this->max_depth );
 			$diff  = $prev - $level;
-			if ( 0 < $diff  ) {
+			if ( 0 < $diff ) {
 				// Smaller.
 				for ( $i = 0; $i < $diff; $i++ ) {
 					$out .= '</li></ol>';
@@ -144,7 +145,7 @@ class Parser {
 				if ( $counter ) {
 					$out .= '</li>';
 				}
-			} elseif ( 0 > $diff) {
+			} elseif ( 0 > $diff ) {
 				// Larger.
 				for ( $i = 0; $i > $diff; $i-- ) {
 					if ( $i < 0 || ! $counter ) {
@@ -172,7 +173,7 @@ class Parser {
 		$out .= '</li></ol></nav>';
 		return $out;
 	}
-	
+
 	/**
 	 * Get benchmark
 	 *
@@ -187,7 +188,7 @@ class Parser {
 		}
 		return $benchmark;
 	}
-	
+
 	/**
 	 * Set TOC title.
 	 *

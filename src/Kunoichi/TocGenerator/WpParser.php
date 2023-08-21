@@ -9,11 +9,11 @@ namespace Kunoichi\TocGenerator;
  * @package Kunoichi\TocGenerator
  */
 class WpParser extends Parser {
-	
+
 	protected $post_id = 0;
-	
-	protected $done    = false;
-	
+
+	protected $done = false;
+
 	/**
 	 * Constructor
 	 *
@@ -27,7 +27,7 @@ class WpParser extends Parser {
 		add_filter( 'the_content', [ $this, 'post_content' ] );
 		add_action( 'kunoichi_toc_generate', [ $this, 'generate' ], 10 );
 	}
-	
+
 	/**
 	 * Executed in wp_head
 	 */
@@ -38,7 +38,7 @@ class WpParser extends Parser {
 		}
 		$this->post_id = get_queried_object_id();
 	}
-	
+
 	/**
 	 * Parse HTML content
 	 *
@@ -47,10 +47,10 @@ class WpParser extends Parser {
 	 * @return string
 	 */
 	public function post_content( $content ) {
-		if ( get_the_ID() != $this->post_id ) {
+		if ( get_the_ID() !== $this->post_id ) {
 			return $content;
 		}
-		$content = $this->add_link_html( $content );
+		$content       = $this->add_link_html( $content );
 		$this->counter = 0;
 		if ( ! $this->done ) {
 			$this->save_parsed_html( $content );
@@ -58,7 +58,7 @@ class WpParser extends Parser {
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * If post id is
 	 *
@@ -68,11 +68,11 @@ class WpParser extends Parser {
 		if ( ! $this->done ) {
 			$content = apply_filters( 'the_content', get_post( $post_id )->post_content );
 		}
-		if ( $this->post_id == $post_id ) {
+		if ( $this->post_id === $post_id ) {
 			echo $this->get_toc();
 		}
 	}
-	
+
 	/**
 	 * Render post id.
 	 *
