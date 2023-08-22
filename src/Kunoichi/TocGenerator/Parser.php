@@ -92,7 +92,7 @@ class Parser {
 				continue;
 			}
 			list( $match, $level ) = $matches;
-			if ( $this->ignore_deeper && ( (int) $level > $this->max_depth) ) {
+			if ( $this->ignore_deeper && ( (int) $level > $this->max_depth ) ) {
 				continue;
 			}
 			$items[] = new Item( $hn );
