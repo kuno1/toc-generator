@@ -27,17 +27,21 @@ class Parser {
 
 	protected $title = '';
 
+	protected $item_class = '';
+
 	/**
 	 * Constructor
 	 *
 	 * @param int    $max_depth
 	 * @param bool   $ignore_deeper
 	 * @param string $id
+	 * @param string $item_class
 	 */
-	public function __construct( $max_depth = 3, $ignore_deeper = false, $id = 'content-section-' ) {
+	public function __construct( $max_depth = 3, $ignore_deeper = false, $id = 'content-section-', $item_class = Item::class ) {
 		$this->id_prefix     = $id;
 		$this->max_depth     = $max_depth;
 		$this->ignore_deeper = $ignore_deeper;
+		$this->item_class    = $item_class;
 	}
 
 	/**
@@ -95,7 +99,7 @@ class Parser {
 			if ( $this->ignore_deeper && ( (int) $level > $this->max_depth ) ) {
 				continue;
 			}
-			$items[] = new Item( $hn );
+			$items[] = new $this->item_class( $hn );
 		}
 		return $items;
 	}
