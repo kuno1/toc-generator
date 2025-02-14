@@ -77,7 +77,7 @@ class WpParser extends Parser {
 			$this->page_counter = 0;
 			foreach ( $contents as $content ) {
 				$this->counter = 0;
-				$this->page_counter ++;
+				++$this->page_counter;
 				$replaced_html .= preg_replace_callback( '/<(h[1-6])([^>]*?)>/u', [ $this, 'convert_link' ], $content );
 			}
 
@@ -95,12 +95,12 @@ class WpParser extends Parser {
 	 * @return string
 	 */
 	protected function convert_link( $matches ) {
-		$this->counter ++;
+		++$this->counter;
 		$attributes = $matches[2];
 		if ( preg_match( '/id=\'|"([\'"]*)(\'|")/u', $matches[2], $id_matches ) ) {
 			$id = $id_matches[1];
 		} else {
-			$id         = sprintf( '%s%d', $this->id_prefix, $this->counter );
+			$id          = sprintf( '%s%d', $this->id_prefix, $this->counter );
 			$attributes .= sprintf( ' id="%s"', $id ) . $matches[2];
 		}
 		// Add an attribute for the page number.

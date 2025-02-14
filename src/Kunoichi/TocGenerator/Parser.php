@@ -62,7 +62,7 @@ class Parser {
 	 * @return string
 	 */
 	protected function convert_link( $matches ) {
-		$this->counter++;
+		++$this->counter;
 		$attributes = $matches[2];
 		if ( preg_match( '/id=\'|"([\'"]*)(\'|")/u', $matches[2], $id_matches ) ) {
 			$id = $id_matches[1];
@@ -166,7 +166,7 @@ class Parser {
 			$out .= sprintf( '<li data-level="%d">', $bench_mark - $level );
 			$out .= $item->get_markup();
 			$prev = $level;
-			$counter++;
+			++$counter;
 		}
 		$last_diff = $bench_mark - $prev;
 		if ( 0 > $last_diff ) {
