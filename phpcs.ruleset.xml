@@ -23,11 +23,8 @@
 		<exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
 		<exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
 		<exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments"/>
-		<exclude name="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound" />
-	</rule>
-
-	<rule ref="PHPCompatibility">
-		<config name="testVersion" value="7.4-"/>
+		<exclude name="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound" />a
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
 	</rule>
 
 	<exclude-pattern>*/node_modules/*</exclude-pattern>

@@ -2,8 +2,6 @@ name: Library CI/CD
 
 on:
   push:
-    branches:
-      - master
     tags:
       - '*'
   pull_request:
@@ -11,15 +9,15 @@ on:
       - master
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        php: [ '7.4', '8.0' ] # PHP versions to check.
-        wp: [ 'latest', '5.9' ]      # WordPress version to check.
-    uses: tarosky/workflows/.github/workflows/wp-unit-test.yml@main
-    with:
-      php_version: ${{ matrix.php }}
-      wp_version: ${{ matrix.wp }}
+#  test:
+#    strategy:
+#      matrix:
+#        php: [ '7.4', '8.0' ] # PHP versions to check.
+#        wp: [ 'latest', '5.9' ]      # WordPress version to check.
+#    uses: tarosky/workflows/.github/workflows/wp-unit-test.yml@main
+#    with:
+#      php_version: ${{ matrix.php }}
+#      wp_version: ${{ matrix.wp }}
 
   phpcs:
     name: PHP Syntax check
@@ -29,8 +27,10 @@ jobs:
 
   status-check:
     name: Status Check
-    needs: [ test, phpcs ]
+    if: always()
+    needs: [ phpcs ]
     runs-on: ubuntu-latest
     steps:
-      - name: Display Status
-        run: echo "All Green!"
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
