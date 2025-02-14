@@ -13,7 +13,7 @@ class Item {
 	/**
 	 * @var \DOMNode
 	 */
-	private $dom = null;
+	protected $dom = null;
 
 	/**
 	 * Item constructor.
